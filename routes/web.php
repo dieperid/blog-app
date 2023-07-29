@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::prefix('/blog')->name('blog.')->group(function () {
     Route::get('/', function (Request $request) {
         return [
-            "link" => \route("blog.show", ['slug' => 'article', "id" => 11]),
+            "link" => \route("blog.show", ["slug" => 'article', "id" => 11]),
         ];
     })->name('index');
 
@@ -32,7 +32,7 @@ Route::prefix('/blog')->name('blog.')->group(function () {
             "name" => $request->input('name')
         ];
     })->where([
-        'id' => '[0-9]+',
-        'slug' => '[a-z0-9\-]+',
+        "id" => '[0-9]+',
+        "slug" => '[a-z0-9\-]+',
     ])->name('show');
 });
