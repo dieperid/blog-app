@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,16 @@ Route::get('/', function () {
 
 Route::prefix('/blog')->name('blog.')->group(function () {
     Route::get('/', function (Request $request) {
-        return [
-            "link" => \route("blog.show", ["slug" => 'article', "id" => 11]),
-        ];
+
+        // Create a post for the database
+        $post = new Post();
+        $post->title = 'My second article';
+        $post->slug = 'my-second-article';
+        $post->content = 'My content';
+
+        // Save the post in the database + return it to the application
+        $post->save();
+        return $post;
     })->name('index');
 
     Route::get('/{slug}/{id}', function (string $slug, string $id, Request $request) {
