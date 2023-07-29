@@ -22,27 +22,20 @@ Route::get('/', function () {
 Route::prefix('/blog')->name('blog.')->group(function () {
     Route::get('/', function (Request $request) {
 
-        // Get the post that has the id 1 + update his title
-        $post = Post::create([
-            'title' => 'My new title',
-            'slug' => 'new-title',
-            'content' => 'My new content',
-        ]);
-
-        dd($post);
-        return $post;
-
-        return [
-            'link' => \route('blog.show', ['slug' => 'article', 'id' => 11]),
-        ];
+        // Return 25 page 
+        return Post::paginate(25);
     })->name('index');
 
     Route::get('/{slug}/{id}', function (string $slug, string $id, Request $request) {
-        return [
-            'slug' => $slug,
-            'id' => $id,
-            'name' => $request->input('name')
-        ];
+
+        // Find one article and display it
+        $post = Post::findOrFail($id);
+        // If the slug is false, correct it and display the good route
+        if ($post->slug !== $slug) {
+            return to_route('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
+        }
+
+        return $post;
     })->where([
         'id' => '[0-9]+',
         'slug' => '[a-z0-9\-]+',
