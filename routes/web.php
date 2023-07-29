@@ -22,13 +22,12 @@ Route::get('/', function () {
 Route::prefix('/blog')->name('blog.')->group(function () {
     Route::get('/', function (Request $request) {
 
-        // Get the post that has the id 1
-        $postOne = Post::find(1);
-        // Get the post that has the id 2
-        // findOrFail -> Generate a 404 error message when the specified id is not found
-        $postOneFail = Post::findOrFail(2);
+        // Get the post that has the id 1 + update his title
+        $post = Post::find(1);
+        $post->title = 'New title';
+        $post->save();
 
-        return $postOne;
+        return $post;
 
         return [
             "link" => \route("blog.show", ["slug" => 'article', "id" => 11]),
