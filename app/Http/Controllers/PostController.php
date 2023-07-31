@@ -13,7 +13,7 @@ class PostController extends Controller
         return view('blog.index', ['posts' => Post::paginate(1)]);
     }
 
-    public function show(string $slug, string $id): RedirectResponse | Post
+    public function show(string $slug, string $id): RedirectResponse | View
     {
         // Find one article and display it
         $post = Post::findOrFail($id);
@@ -22,6 +22,6 @@ class PostController extends Controller
             return to_route('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
         }
 
-        return $post;
+        return view('blog.show', ['post' => $post]);
     }
 }
