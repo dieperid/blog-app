@@ -18,10 +18,8 @@ class PostController extends Controller
 		]);
 	}
 
-	public function show(string $slug, string $id): RedirectResponse | View
+	public function show(string $slug, Post $post): RedirectResponse | View
 	{
-		// Find one article and display it
-		$post = Post::findOrFail($id);
 		// If the slug is false, correct it and display the good route
 		if ($post->slug !== $slug) {
 			return to_route('blog.show', [
